@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<form action="/" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-3">時期</div>
+        <div class="col-md-9">
+            <select name="select_date" class="form-select" aria-label="Default select example">
+                <option value="2021-06-01" selected>2021年6月</option>
+                <option value="2021-05-01" >2021年5月</option>
+                <option value="2021-04-01">2021年4月</option>
+                <option value="2021-03-01">2021年3月</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">ランキング種別</div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="select_type" id="flexRadioDefault1" value="xhtml" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    XHTML版
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="select_type" id="flexRadioDefault2" value="text">
+                <label class="form-check-label" for="flexRadioDefault2">
+                    テキスト版
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11"></div>
+            <div class="col-md-1">
+                <div class="float-md-left">
+                    <button type="submit" class="btn-primary">出力</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
