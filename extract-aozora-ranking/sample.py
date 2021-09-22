@@ -5,7 +5,7 @@ time_stamp = '2021-06-01'
 rank = 1
 
 df = extract_ranking_links_as_data_frame()
-url_rank, = get_urls_by_timestamp(df, time_stamp)
+url_rank, _ = get_urls_by_timestamp(df, time_stamp)
 
 print(url_rank)
 
