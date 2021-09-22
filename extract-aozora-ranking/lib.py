@@ -1,21 +1,28 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import pandas as pd
-import requests
-import zipfile
-import codecs
 
-# DataFrame用の列
 KEY_TIMESTAMP = 'タイムスタンプ'
 KEY_URL_XHTML = 'URL (XHTML版)'
 KEY_URL_TXT = 'URL (テキスト版)'
 KEY_DATE = '年月'
 
+# Chrome Optionsの設定（headlessモード）
+# https://tanuhack.com/stable-selenium/
+options = Options()
+options.add_argument('--headless')                 # headlessモードを使用する
+options.add_argument('--disable-gpu')              # headlessモードで暫定的に必要なフラグ(そのうち不要になる)
+options.add_argument('--disable-extensions')       # すべての拡張機能を無効にする。ユーザースクリプトも無効にする
+options.add_argument('--proxy-server="direct://"') # Proxy経由ではなく直接接続する
+options.add_argument('--proxy-bypass-list=*')      # すべてのホスト名
+options.add_argument('--start-maximized')          # 起動時にウィンドウを最大化する
+
+
 # ランキング表のリンク一覧（日付順で並んでいる表）をリストにして返す
 # リスト構造: [日付, URL(XHTML版ランキング), URL(テキスト版ランキング)]
 def extract_ranking_links_as_list():
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(chrome_options=options)
     browser.get('https://www.aozora.gr.jp/access_ranking/')
-    
     
     tables = browser.find_elements_by_tag_name('table')
 
@@ -49,18 +56,39 @@ def extract_ranking_links_as_data_frame():
     df_sorted = df.sort_values(by=KEY_TIMESTAMP, ascending=False) 
     return df_sorted
 
+# タイムスタンプのリストを返す
+def get_timestamp_list(df):
+    return df[KEY_TIMESTAMP].dt.strftime('%Y-%m-%d').tolist()
+
+# 日付のリストを返す
+def get_date_list(df):
+    return df[KEY_DATE].tolist()
+
 # DataFrameから特定のタイムスタンプを持つ行を抽出する
 def extract_df_by_timestamp(df, timestamp):
     return df[df[KEY_TIMESTAMP] == timestamp]
 
 # 特定のタイムスタンプにおいて、URL（XHTML版、テキスト版のそれぞれ）を返す
 def get_urls_by_timestamp(df, timestamp):
-    df_target = extract_df_by_timestamp(df, timestamp)
-    return df_target.at[0,KEY_URL_XHTML], df_target.at[0,KEY_URL_TXT]
+    df_target = extract_df_by_timestamp(df, timestamp).iloc[0]
+    return df_target[KEY_URL_XHTML], df_target[KEY_URL_TXT]
+
+# ランキング表のデータフレームを取得する
+def get_df_ranking(url):
+    browser = webdriver.Chrome(chrome_options=options)
+    browser.get(url)
+
+    table = browser.find_elements_by_tag_name("table")[0]
+    table_html = table.get_attribute('outerHTML')
+    browser.quit()
+
+    table_pd = pd.read_html(table_html, header=0, index_col=0)
+
+    return table_pd[0]
 
 # 特定の順位のタイトル・URL・著者名を取得する
 def extract_info_from_table_element(url, rank_index):
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(chrome_options=options)
     browser.get(url)
     table = browser.find_elements_by_tag_name("table")[0]
     
@@ -76,7 +104,7 @@ def extract_info_from_table_element(url, rank_index):
 # 作品ページのURLからXHTMLソースを取得する
 def get_xhtml(url_sakuhin):
     # 作品ページに飛ぶ
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(chrome_options=options)
     browser.get(url_sakuhin)
     
     # リンクに「html」が含まれる要素を抽出する（XHTML版）
@@ -86,6 +114,8 @@ def get_xhtml(url_sakuhin):
     
     # XHTML本体（ソース）に飛ぶ
     browser.get(url_xhtml_content)
+
+    content = browser.page_source
     
     browser.quit()
-    return browser.page_source
+    return content
