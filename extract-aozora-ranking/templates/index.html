@@ -18,4 +18,39 @@
         </div>
     </div>
 </form>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">順位</th>
+        <th scope="col">作品名</th>
+        <th scope="col">著者名</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for r in ranking %}
+        <tr>
+            <th scope="row">{{r.rank}}</th>
+            <td><a href="{{r.title_link}}">{{r.title}}</a></td>
+            <td><a href="{{r.author_link}}">{{r.author}}</a></td>
+        </tr>
+        {% endfor %}
+
+    <!-- <tr>
+        <th scope="row">1</th>
+        <td><a href="https://www.aozora.gr.jp/cards/000081/files/45630_23908.html">〔雨ニモマケズ〕</a></td>
+        <td><a href="https://www.aozora.gr.jp/index_pages/person81.html">宮沢賢治</a></td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td><a href="https://www.aozora.gr.jp/cards/000148/files/773_14560.html">こころ</a></td>
+        <td><a href="https://www.aozora.gr.jp/index_pages/person148.html">夏目漱石</a></td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td><a href="https://www.aozora.gr.jp/cards/000081/files/46268_23911.html">星めぐりの歌</a></td>
+        <td><a href="https://www.aozora.gr.jp/index_pages/person81.html">宮沢賢治</a></td>
+      </tr> -->
+    </tbody>
+  </table>
 {% endblock %}

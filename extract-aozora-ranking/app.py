@@ -3,7 +3,6 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    name = "Hello World"
     title = "青空文庫のランキングを抽出するやつ"
 
     # 時期
@@ -24,11 +23,35 @@ def index():
 
     default_date = '2021-05-01'
 
+    ranking = [
+        {
+            'rank': 1,
+            'title': '〔雨ニモマケズ〕',
+            'title_link': 'https://www.aozora.gr.jp/cards/000081/files/45630_23908.html',
+            'author': '宮沢賢治',
+            'author_link': 'https://www.aozora.gr.jp/index_pages/person81.html'
+        },
+        {
+            'rank': 2,
+            'title': 'こころ',
+            'title_link': 'https://www.aozora.gr.jp/cards/000148/files/773_14560.html',
+            'author': '夏目漱石',
+            'author_link': 'https://www.aozora.gr.jp/index_pages/person148.html'
+        },{
+            'rank': 3,
+            'title': '星めぐりの歌',
+            'title_link': 'https://www.aozora.gr.jp/cards/000081/files/45630_23908.html',
+            'author': '宮沢賢治',
+            'author_link': 'https://www.aozora.gr.jp/index_pages/person81.html'
+        },
+    ]
+
     return render_template('index.html',
                            title=title,
                            select_date=select_date,
                            dic_dates=dic_dates,
-                           default_date=default_date)
+                           default_date=default_date,
+                           ranking=ranking)
 
 # おまじない
 if __name__ == "__main__":
