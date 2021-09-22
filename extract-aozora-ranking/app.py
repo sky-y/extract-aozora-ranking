@@ -1,27 +1,36 @@
+from lib import *
+
 from flask import Flask, render_template, request
 app = Flask(__name__)
+
+def get_dic_dates(df):
+    timestamps = get_timestamp_list(df)
+    dates = get_date_list(df)
+
+    dic_dates = {}
+    for x in zip(timestamps, dates):
+        dic_dates[x[0]] = x[1]
+    
+    return dic_dates
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     title = "青空文庫のランキングを抽出するやつ"
 
-    # 時期
+    # ランキングのリンク一覧をDataFrameにする
+    df = extract_ranking_links_as_data_frame()
+
+    # 時期の一覧を取得する
+    dic_dates = get_dic_dates(df)
+
+    # 時期の初期値：最新の日時
+    default_date = get_latest_timestamp(df)
+
+    # フォーム：時期を選択する
     select_date = request.form.get('select_date')
-
-    # # ランキング種別
-    # select_type = request.form.get('select_type')
-
+    if select_date is None:
+        select_date = default_date
     print("date:", select_date)
-    # print("type:", select_type)
-
-    dic_dates = {
-        '2021-06-01': '2021年6月',
-        '2021-05-01': '2021年5月',
-        '2021-04-01': '2021年4月',
-        '2021-03-01': '2021年3月',
-    }
-
-    default_date = '2021-05-01'
 
     ranking = [
         {
@@ -50,7 +59,6 @@ def index():
                            title=title,
                            select_date=select_date,
                            dic_dates=dic_dates,
-                           default_date=default_date,
                            ranking=ranking)
 
 # おまじない

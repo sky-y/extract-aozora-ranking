@@ -7,7 +7,7 @@
         <div class="col-sm-9">
             <select name="select_date" class="form-select" aria-label="Default select example">
                 {% for key, value in dic_dates.items() %}
-                <option value="{{key}}" {% if key == default_date %} selected {% endif %}>
+                <option value="{{key}}" {% if key == select_date %} selected {% endif %}>
                     {{value}}
                 </option>
                 {% endfor %}
