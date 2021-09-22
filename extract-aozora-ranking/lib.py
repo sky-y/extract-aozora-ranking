@@ -60,6 +60,10 @@ def extract_ranking_links_as_data_frame():
 def get_timestamp_list(df):
     return df[KEY_TIMESTAMP].dt.strftime('%Y-%m-%d').tolist()
 
+# 最新のタイムスタンプを取得する
+def get_latest_timestamp(df):
+    return df[KEY_TIMESTAMP][0].strftime('%Y-%m-%d')
+
 # 日付のリストを返す
 def get_date_list(df):
     return df[KEY_DATE].tolist()
