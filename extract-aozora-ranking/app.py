@@ -32,26 +32,25 @@ def index():
         select_date = default_date
     print("date:", select_date)
 
-    ranking = [
-        {
-            'rank': 1,
-            'title': '〔雨ニモマケズ〕',
-            'title_link': 'https://www.aozora.gr.jp/cards/000081/files/45630_23908.html',
-            'author': '宮沢賢治',
-        },
-        {
-            'rank': 2,
-            'title': 'こころ',
-            'title_link': 'https://www.aozora.gr.jp/cards/000148/files/773_14560.html',
-            'author': '夏目漱石',
-        },{
-            'rank': 3,
-            'title': '星めぐりの歌',
-            'title_link': 'https://www.aozora.gr.jp/cards/000081/files/45630_23908.html',
-            'author': '宮沢賢治',
-        },
-    ]
+    # 時期に対応するランキングURLを取得する
+    url_rank, _ = get_urls_by_timestamp(df, select_date)
 
+    # 時期に対応するランキングをDataFrameとして取得する
+    df_rank = get_df_ranking(url_rank)
+
+    # ランキングを辞書に変換する
+    # ranking = [
+    #     {
+    #         'rank': 1,
+    #         'title': '〔雨ニモマケズ〕',
+    #         'title_link': 'https://www.aozora.gr.jp/cards/000081/files/45630_23908.html',
+    #         'author': '宮沢賢治',
+    #     },
+    #     ...
+    # ]
+    ranking = df_rank.to_dict(orient='records')
+
+    # テンプレートからHTMLを生成する
     return render_template('index.html',
                            title=title,
                            select_date=select_date,

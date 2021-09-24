@@ -90,12 +90,17 @@ def get_df_ranking(url):
 
     # DataFrameとしてHTMLを読み込む
     # ただしこの時点ではリンクは読み込まれない
-    table_pd = pd.read_html(table_html, header=0, index_col=0)[0]
+    table_pd = pd.read_html(table_html, header=0)[0]
 
     # 別途BeautifulSoupでHTMLを読み込み、作品のリンクを取得する
     table_bs = BeautifulSoup(table_html, 'html.parser')
     a_cards_bs = table_bs.find_all('a', href=re.compile('https://www\.aozora\.gr\.jp/cards/'))
     table_pd['リンク（作品）'] = [link.get('href') for link in a_cards_bs]
+
+    # ラベルを変更し、不要な列を削除
+    labels = ['rank', 'title', 'author', 'access', 'title_link']
+    table_pd = table_pd.set_axis(labels, axis='columns')
+    table_pd = table_pd.drop('access', axis=1)
     
     return table_pd
 
