@@ -1,6 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<p><a href="https://www.aozora.gr.jp/access_ranking/">青空文庫　アクセスランキング</a>の作品をワンクリックで読めるWebアプリです。</p>
+<p>※ランキングはXHTML版のみを対象としています。</p>
+<p></p>
+<ul>
+  <li>アプリ作者：Yuki Fujiwara</li>
+  <li>GitHub：<a href="https://github.com/sky-y/extract-aozora-ranking">sky-y
+    /
+    extract-aozora-ranking</a></li>
+</ul>
+
 <form action="/" method="POST" enctype="multipart/form-data">
     <div class="row d-flex align-items-center">
         <div class="col-sm-1">時期</div>
@@ -35,22 +45,6 @@
             <td>{{r.author}}</td>
         </tr>
         {% endfor %}
-
-    <!-- <tr>
-        <th scope="row">1</th>
-        <td><a href="https://www.aozora.gr.jp/cards/000081/files/45630_23908.html">〔雨ニモマケズ〕</a></td>
-        <td><a href="https://www.aozora.gr.jp/index_pages/person81.html">宮沢賢治</a></td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td><a href="https://www.aozora.gr.jp/cards/000148/files/773_14560.html">こころ</a></td>
-        <td><a href="https://www.aozora.gr.jp/index_pages/person148.html">夏目漱石</a></td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td><a href="https://www.aozora.gr.jp/cards/000081/files/46268_23911.html">星めぐりの歌</a></td>
-        <td><a href="https://www.aozora.gr.jp/index_pages/person81.html">宮沢賢治</a></td>
-      </tr> -->
     </tbody>
   </table>
 {% endblock %}

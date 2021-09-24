@@ -15,7 +15,7 @@ def get_dic_dates(df):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    title = "青空文庫のランキングを抽出するやつ"
+    title = "青空イッパツ"
 
     # ランキングのリンク一覧をDataFrameにする
     df = extract_ranking_links_as_data_frame()
