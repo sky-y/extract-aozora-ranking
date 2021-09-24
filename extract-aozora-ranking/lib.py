@@ -119,8 +119,7 @@ def extract_info_from_table_element(url, rank_index):
     browser.quit()
     return title, url, author
 
-# 作品ページのURLからXHTMLソースを取得する
-def get_xhtml(url_sakuhin):
+def get_xhtml_link(url_sakuhin):
     # 作品ページに飛ぶ
     browser = webdriver.Chrome(chrome_options=options)
     browser.get(url_sakuhin)
@@ -129,8 +128,16 @@ def get_xhtml(url_sakuhin):
     extension = 'html'
     elems_link = browser.find_elements_by_partial_link_text(extension)
     url_xhtml_content = elems_link[0].get_attribute('href')
+    browser.quit()
+
+    return url_xhtml_content
+
+# 作品ページのURLからXHTMLソースを取得する
+def get_xhtml(url_sakuhin):
+    url_xhtml_content = get_xhtml_link(url_sakuhin)
     
     # XHTML本体（ソース）に飛ぶ
+    browser = webdriver.Chrome(chrome_options=options)
     browser.get(url_xhtml_content)
 
     content = browser.page_source

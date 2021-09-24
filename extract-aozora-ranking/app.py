@@ -1,6 +1,6 @@
 from lib import *
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 app = Flask(__name__)
 
 def get_dic_dates(df):
@@ -56,6 +56,18 @@ def index():
                            select_date=select_date,
                            dic_dates=dic_dates,
                            ranking=ranking)
+
+# XHTMLページにリダイレクトする
+@app.route('/xhtml', methods=['GET'])
+def xhtml():
+    # 作品ページのURLを取得
+    url_card = request.args.get('q')
+
+    # XHTMLのURLを取得
+    url_xhtml = get_xhtml_link(url_card)
+
+    # XHTMLページにリダイレクトする
+    return redirect(url_xhtml, code=302)
 
 # おまじない
 if __name__ == "__main__":
