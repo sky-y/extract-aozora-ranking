@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
+from bs4 import BeautifulSoup
+import re
 
 KEY_TIMESTAMP = 'タイムスタンプ'
 KEY_URL_XHTML = 'URL (XHTML版)'
@@ -86,9 +88,16 @@ def get_df_ranking(url):
     table_html = table.get_attribute('outerHTML')
     browser.quit()
 
-    table_pd = pd.read_html(table_html, header=0, index_col=0)
+    # DataFrameとしてHTMLを読み込む
+    # ただしこの時点ではリンクは読み込まれない
+    table_pd = pd.read_html(table_html, header=0, index_col=0)[0]
 
-    return table_pd[0]
+    # 別途BeautifulSoupでHTMLを読み込み、作品のリンクを取得する
+    table_bs = BeautifulSoup(table_html, 'html.parser')
+    a_cards_bs = table_bs.find_all('a', href=re.compile('https://www\.aozora\.gr\.jp/cards/'))
+    table_pd['リンク（作品）'] = [link.get('href') for link in a_cards_bs]
+    
+    return table_pd
 
 # 特定の順位のタイトル・URL・著者名を取得する
 def extract_info_from_table_element(url, rank_index):
