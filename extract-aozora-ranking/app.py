@@ -38,20 +38,17 @@ def index():
             'title': '〔雨ニモマケズ〕',
             'title_link': 'https://www.aozora.gr.jp/cards/000081/files/45630_23908.html',
             'author': '宮沢賢治',
-            'author_link': 'https://www.aozora.gr.jp/index_pages/person81.html'
         },
         {
             'rank': 2,
             'title': 'こころ',
             'title_link': 'https://www.aozora.gr.jp/cards/000148/files/773_14560.html',
             'author': '夏目漱石',
-            'author_link': 'https://www.aozora.gr.jp/index_pages/person148.html'
         },{
             'rank': 3,
             'title': '星めぐりの歌',
             'title_link': 'https://www.aozora.gr.jp/cards/000081/files/45630_23908.html',
             'author': '宮沢賢治',
-            'author_link': 'https://www.aozora.gr.jp/index_pages/person81.html'
         },
     ]
 
