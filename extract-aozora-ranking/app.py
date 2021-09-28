@@ -3,16 +3,6 @@ from lib import *
 from flask import Flask, render_template, request, redirect
 app = Flask(__name__)
 
-def get_dic_dates(df):
-    timestamps = get_timestamp_list(df)
-    dates = get_date_list(df)
-
-    dic_dates = {}
-    for x in zip(timestamps, dates):
-        dic_dates[x[0]] = x[1]
-    
-    return dic_dates
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     title = "青空イッパツ"

@@ -70,6 +70,17 @@ def get_latest_timestamp(df):
 def get_date_list(df):
     return df[KEY_DATE].tolist()
 
+# 時期の一覧を取得する
+def get_dic_dates(df):
+    timestamps = get_timestamp_list(df)
+    dates = get_date_list(df)
+
+    dic_dates = {}
+    for x in zip(timestamps, dates):
+        dic_dates[x[0]] = x[1]
+    
+    return dic_dates
+
 # DataFrameから特定のタイムスタンプを持つ行を抽出する
 def extract_df_by_timestamp(df, timestamp):
     return df[df[KEY_TIMESTAMP] == timestamp]
